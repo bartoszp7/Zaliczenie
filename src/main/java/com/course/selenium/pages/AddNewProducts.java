@@ -6,9 +6,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
-import java.util.concurrent.TimeUnit;
-
 import static com.course.selenium.helpers.Helpers.waitForPageLoaded;
 
 public class AddNewProducts {
@@ -27,13 +24,15 @@ public class AddNewProducts {
     WebElement SizeChoose;
     @FindBy(id = "quantity_wanted")
     WebElement Quantity;
-    @FindBy(css =".add .btn")
+    @FindBy(css = ".add .btn")
     WebElement AddToCartButton;
-    @FindBy(css =".cart-content-btn .btn-primary")
+    @FindBy(css = ".cart-content-btn .btn-primary")
     WebElement ProceedToCheckoutButton;
     @FindBy(css = ".text-sm-center .btn")
     WebElement SecondProceedToCheckoutButton;
-    @FindBy(name="confirm-addresses")
+    @FindBy(name = "id_address_delivery")
+    WebElement AddressConfirm;
+    @FindBy(name = "confirm-addresses")
     WebElement ContinueButton;
     @FindBy(id = "delivery_option_8")
     WebElement SelfPickUpMethod;
@@ -41,22 +40,29 @@ public class AddNewProducts {
     WebElement ConfirmDelivery;
     @FindBy(id = "payment-option-1")
     WebElement PaymentOption;
-    @FindBy(id ="conditions_to_approve[terms-and-conditions]")
+    @FindBy(id = "conditions_to_approve[terms-and-conditions]")
     WebElement TermsAcception;
     @FindBy(css = ".ps-shown-by-js .btn-primary")
     WebElement PlaceOrderButton;
-//    @FindBy(css = ".product-discount .regular-price")
+    //    @FindBy(css = ".product-discount .regular-price")
 //    WebElement RegularPrice;
 //    @FindBy (css =".product-price.h5 .current-price-value")
 //    WebElement CurrentPrice;
     @FindBy(css = ".discount.discount-percentage")
     WebElement SavePrice;
-    @FindBy(css = ".cart-summary-line.cart-total .value")
+    @FindBy(css = ".text-xs-right")
     WebElement FinalPrice;
     @FindBy(css = ".account .hidden-sm-down")
     WebElement UserButton;
     @FindBy(id = "history-link")
     WebElement OrdersHistory;
+    @FindBy(xpath = "//li[contains(text(), 'Do not forget to insert your order reference')]')]")
+    WebElement OrderId;
+    //@FindBy(css = ".label.label-pill.bright")
+    @FindBy(xpath = "//span[contains(text(), 'Awaiting check payment')]")
+    WebElement OrderStatus;
+    @FindBy(css = ".text-xs-right")
+    WebElement OrderPrice;
 
 
     public AddNewProducts(WebDriver driver) {
@@ -78,7 +84,7 @@ public class AddNewProducts {
                 .perform();
     }
 
-    public void ChooseSweater(){
+    public void ChooseSweater() {
         SweaterChoose.click();
     }
 
@@ -88,6 +94,7 @@ public class AddNewProducts {
         WebElement size = driver.findElement(By.xpath(expression));
         size.click();
     }
+
     public void typeQuantity(String quant) {
         Quantity.click();
         Quantity.sendKeys(Keys.BACK_SPACE);
@@ -95,44 +102,67 @@ public class AddNewProducts {
         Quantity.sendKeys(quant);
     }
 
-    public void typeAddToCard(){
+    public void typeAddToCard() {
         AddToCartButton.click();
     }
 
-    public void typeProceedToCheckout(){
-        waitForPageLoaded(driver, By.cssSelector(".cart-content-btn .btn-primary"),"");
+    public void typeProceedToCheckout() {
+        waitForPageLoaded(driver, By.cssSelector(".cart-content-btn .btn-primary"), "");
         ProceedToCheckoutButton.click();
         SecondProceedToCheckoutButton.click();
     }
-    public void typeContinue(){
+
+    public void typeContinue() {
+        if(!AddressConfirm.isSelected()){
+            AddressConfirm.click();
+        }
         ContinueButton.click();
     }
 
-    public void typeDelivery(){
-        //SelfPickUpMethod.click();
+    public void typeDelivery() {
+        if(!SelfPickUpMethod.isSelected()){
+        SelfPickUpMethod.click();}
         ConfirmDelivery.click();
     }
 
-    public void typePayment(){
+    public void typePayment() {
         PaymentOption.click();
         TermsAcception.click();
     }
-    public void typeOrderConfirmation(){
+
+    public void typeOrderConfirmation() {
         PlaceOrderButton.click();
     }
 
-    public void screenshot(Scenario scenario){
+    public void screenshot(Scenario scenario) {
         TakesScreenshot ts = (TakesScreenshot) driver;
         byte[] src = ts.getScreenshotAs(OutputType.BYTES);
-        scenario.attach(src,"image/png", "screenshot");
+        scenario.attach(src, "image/png", "screenshot");
     }
 
-    public void checkTheDiscount(){
+    public void checkTheDiscount() {
 //        System.out.println("Regular price is: " + RegularPrice.getText());
 //        System.out.println("Discount price is: " + CurrentPrice.getText());
         System.out.println("The current discount is: " + SavePrice.getText());
         Assert.assertTrue(driver.findElement(By.cssSelector(".discount.discount-percentage")).getText().contains("SAVE 20%"));
     }
 
+    public void checkTheOrder() {
+        String finalPrice = FinalPrice.getText();
+        UserButton.click();
+        OrdersHistory.click();
+        String orderPrice = OrderPrice.getText();
 
-}
+        Assert.assertTrue(driver.findElement(By.cssSelector(".label.label-pill.bright")).getText().contains("Awaiting check payment"));
+        System.out.println("Zamówienie zawiera status: " + OrderStatus.getText());
+
+        Assert.assertEquals(finalPrice, orderPrice);
+        if(finalPrice.equals(orderPrice)){
+            System.out.println("Order price is correct.");
+        }
+        else{
+            System.out.println(("Order price is incorrect."));
+        }
+   }
+    }
+

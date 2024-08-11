@@ -6,7 +6,6 @@ import com.course.selenium.pages.HomePage;
 import com.course.selenium.pages.LoginPage;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -111,8 +110,9 @@ public class PurchasingProductsSteps {
     }
 
     @And("the user check the correctness of the order")
-    public void theUserCheckTheCorrectnessOfTheOrder() {
-
+    public void theUserCheckTheCorrectnessOfTheOrder() throws InterruptedException {
+        AddNewProducts addNewProducts = new AddNewProducts(driver);
+        addNewProducts.checkTheOrder();
 
     }
 }

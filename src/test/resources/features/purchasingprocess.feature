@@ -4,7 +4,7 @@ Feature: Purchasing products on the website
   So that I can purchasing new products
 
   @done
-   Scenario Outline: :
+   Scenario Outline: Order process
     Given a logged out user is on the home page 2
     And the user clicks "Sign in" button in the upper right corner 2
     And the user fills the email and the password fields 2
