@@ -19,6 +19,7 @@ Feature: Purchasing products on the website
     And the user choose "Pay by Check" payment method
     And the user clicks on "order with an obligation to pay"
     And the user take a screenshot with order confirmation
+    And the user check the correctness of the order
      Examples:
        | size | quantity |
        |M     |5         |

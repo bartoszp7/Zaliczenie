@@ -109,4 +109,10 @@ public class PurchasingProductsSteps {
         File screenshotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
         Files.copy(screenshotFile.toPath(), new File("D:\\LMS_aut\\screens\\screen.png").toPath());
     }
+
+    @And("the user check the correctness of the order")
+    public void theUserCheckTheCorrectnessOfTheOrder() {
+
+
+    }
 }

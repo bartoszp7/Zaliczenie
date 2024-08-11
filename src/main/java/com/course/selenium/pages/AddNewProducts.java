@@ -51,6 +51,12 @@ public class AddNewProducts {
 //    WebElement CurrentPrice;
     @FindBy(css = ".discount.discount-percentage")
     WebElement SavePrice;
+    @FindBy(css = ".cart-summary-line.cart-total .value")
+    WebElement FinalPrice;
+    @FindBy(css = ".account .hidden-sm-down")
+    WebElement UserButton;
+    @FindBy(id = "history-link")
+    WebElement OrdersHistory;
 
 
     public AddNewProducts(WebDriver driver) {
