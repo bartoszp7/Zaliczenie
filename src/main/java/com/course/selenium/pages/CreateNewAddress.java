@@ -31,6 +31,9 @@ public class CreateNewAddress {
     @FindBy(css = ".btn.btn.btn-primary.form-control-submit")
     WebElement SaveButton;
     By locatorAlertSuccess = By.cssSelector("article.alert-success");
+    @FindBy(xpath = "//article/div/h4[contains(text(), 'CodersUser')]/../..//span[contains(text(), 'Delete')]")
+    WebElement DeleteAddressButton;
+    By locatorAlertDelete = By.cssSelector(".container .alert.alert-success");
 
     public CreateNewAddress(WebDriver driver) {
         this.driver = driver;
@@ -86,6 +89,11 @@ public class CreateNewAddress {
         WebElement alert = waitForElementVisible(driver,locatorAlertSuccess);
         return alert.getText().strip();
     }
-
-
+    public void deleteAddress(){
+        DeleteAddressButton.click();
+    }
+    public String getDeleteMessage(){
+        WebElement alert = waitForElementVisible(driver,locatorAlertDelete);
+        return alert.getText().strip();
+    }
 }

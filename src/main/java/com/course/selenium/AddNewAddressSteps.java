@@ -67,5 +67,17 @@ public class AddNewAddressSteps {
     @Then("my addresses page should include the new address, the account page should display message {string}")
     public void myAddressesPageShouldIncludeTheNewAddressTheAccountPageShouldDisplayMessage(String arg0) {
         Assert.assertEquals(arg0, createNewAddress.getSuccessMessage());
+        System.out.println("The new address has been added successfully.");
+    }
+
+    @And("the user delete create address")
+    public void theUserDeleteCreateAddress() {
+        createNewAddress.deleteAddress();
+    }
+
+    @Then("the user see the message about correctly deleted address, the account page should display message {string}")
+    public void theUserSeeTheMessageAboutCorrectlyDeletedAddressTheAccountPageShouldDisplayMessage(String arg0) {
+        Assert.assertEquals(arg0, createNewAddress.getDeleteMessage());
+        System.out.println("The new address has been deleted successfully.");
     }
 }

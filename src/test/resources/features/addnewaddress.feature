@@ -3,7 +3,7 @@ Feature: Adding a new address to user account
   I want to log in to my account
   So that I can add new address
 
-#@done
+@done
   Scenario Outline: Successfully add a new user address
     Given a logged out user is on the home page
     And the user clicks "Sign in" button in the upper right corner
@@ -14,6 +14,8 @@ Feature: Adding a new address to user account
     And the user correctly fills required fields "<Alias>", "<Address>", "<City>", "<Zip_code>", "<Country>", "<Phone>"
     And the user clicks "SAVE"
     Then my addresses page should include the new address, the account page should display message "Address successfully added!"
+    And the user delete create address
+    Then the user see the message about correctly deleted address, the account page should display message "Address successfully deleted!"
     Examples:
       | Alias | Address | City | Zip_code | Country | Phone |
       |CodersUser | 15 main street | London | 00-000 | United Kingdom | 123456789 |
